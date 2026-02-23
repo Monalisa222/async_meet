@@ -18,4 +18,7 @@ Rails.application.routes.draw do
 
   get "/register", to: "users#new"
   post "/register", to: "users#create"
+
+  resources :organizations, only: [:index, :new, :create]
+  post "switch_organization/:id", to: "organizations#switch", as: :switch_organization
 end

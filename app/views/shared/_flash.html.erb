@@ -1,0 +1,22 @@
+<% if flash.any? %>
+  <div class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-md px-4">
+    <% flash.each do |type, message| %>
+
+      <% bg_color =
+        case type.to_sym
+        when :notice then "bg-green-50 border-green-200 text-green-800"
+        when :alert  then "bg-red-50 border-red-200 text-red-800"
+        when :warning then "bg-yellow-50 border-yellow-200 text-yellow-800"
+        else "bg-gray-50 border-gray-200 text-gray-800"
+        end
+      %>
+
+      <div class="mb-4 px-4 py-3 border rounded-xl shadow-sm <%= bg_color %>">
+        <div class="text-sm font-medium">
+          <%= message %>
+        </div>
+      </div>
+
+    <% end %>
+  </div>
+<% end %>

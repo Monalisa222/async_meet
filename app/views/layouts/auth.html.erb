@@ -1,16 +1,24 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>AsyncMeet</title>
-  <%= csrf_meta_tags %>
-  <%= csp_meta_tag %>
-  <%= stylesheet_link_tag "application" %>
-</head>
-<body class="bg-gray-100">
-  <div class="min-h-screen flex items-center justify-center">
-    <div class="w-full max-w-md bg-white p-8 rounded shadow">
-      <%= yield %>
+  <head>
+    <title>AsyncMeet</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+  </head>
+
+  <body class="min-h-screen bg-gray-50 flex items-center justify-center px-4 antialiased">
+    
+    <div class="w-full max-w-md">
+      <div class="bg-white shadow-sm rounded-2xl p-8">
+        <%= render "shared/flash" %>
+        <%= yield %>
+
+      </div>
     </div>
-  </div>
-</body>
+
+  </body>
 </html>

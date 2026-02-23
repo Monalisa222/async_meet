@@ -8,7 +8,7 @@
         AsyncMeet
       </span>
 
-      <% if current_organization %>
+      <% if current_user && current_user.organizations.any? %>
         <%= turbo_frame_tag "organization_switcher", class: "ml-4 px-2 py-1 bg-gray-100 text-sm rounded-lg" do %>
           <%= render "organizations/switcher" %>
         <% end %>
@@ -21,7 +21,12 @@
         <span class="text-sm text-gray-600">
           Signed in as <%= current_user.email %>
         </span>
-        <%= link_to "Logout", logout_path, method: :delete, class: "ml-4 text-sm text-gray-600 hover:text-gray-900" %>
+        <%= button_to "Logout",
+      logout_path,
+      method: :delete,
+      data: { turbo: false },
+      form: { class: "inline" },
+      class: "text-sm text-red-600 hover:text-red-800 bg-transparent border-0 p-0 font-medium cursor-pointer" %>
       </div>
     </div>
   </div>

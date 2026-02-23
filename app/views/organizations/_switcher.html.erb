@@ -1,0 +1,21 @@
+<div>
+  <%= form_with url: switch_organization_path,
+                method: :post,
+                data: { turbo_frame: "organization_switcher" } do %>
+
+    <select name="organization_id"
+            onchange="this.form.requestSubmit()"
+            class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm
+                   focus:ring-2 focus:ring-blue-500 focus:outline-none">
+
+      <% current_user.organizations.each do |org| %>
+        <option value="<%= org.id %>"
+          <%= "selected" if current_organization&.id == org.id %>>
+          <%= org.name %>
+        </option>
+      <% end %>
+
+    </select>
+
+  <% end %>
+</div>

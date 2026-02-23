@@ -1,0 +1,7 @@
+<%= turbo_stream.update "organization_switcher" do %>
+  <%= render "organizations/switcher" %>
+<% end %>
+
+<%= turbo_stream.update "main_content" do %>
+  <%= render template: "organizations/index" %>
+<% end %>

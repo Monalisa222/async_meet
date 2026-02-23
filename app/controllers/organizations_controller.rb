@@ -1,6 +1,4 @@
 class OrganizationsController < ApplicationController
-  before_action :set_organization, only: [:switch]
-
   def index
     @organizations = current_user.organizations
   end
@@ -24,9 +22,15 @@ class OrganizationsController < ApplicationController
   end
 
   def switch
-    if current_user.organizations.exists?(@organization.id)
-      session[:organization_id] = @organization.id
-      redirect_to organizations_path, notice: "Switched to organization #{@organization.name}."
+    org_id = params[:organization_id]
+
+    @organizations = current_user.organizations
+    if current_user.organizations.exists?(org_id)
+      session[:organization_id] = org_id
+      respond_to do |format|
+        format.html { redirect_to organizations_path, notice: "Switched to organization #{Organization.find(org_id).name}." }
+        format.turbo_stream
+      end
     else
       redirect_to organizations_path, alert: "You do not have access to this organization."
     end

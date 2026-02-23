@@ -27,9 +27,14 @@
     <!-- Global Flash Messages -->
     <%= render "shared/flash" %>
 
+    <!-- Navbar -->
+    <%= render "layouts/navbar" %>
+
     <!-- Main App Container -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-      <%= yield %>
+      <%= turbo_frame_tag "main_content" do %>
+        <%= yield %>
+      <% end %>
     </main>
   </body>
 </html>

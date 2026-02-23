@@ -1,0 +1,28 @@
+<header class="bg-white boreder-b border-gray-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-16">
+      
+    <!-- Left: App Name -->
+    <div class="flex items-center space-x-4">
+      <span class="text-xl font-bold text-gray-900">
+        AsyncMeet
+      </span>
+
+      <% if current_organization %>
+        <%= turbo_frame_tag "organization_switcher", class: "ml-4 px-2 py-1 bg-gray-100 text-sm rounded-lg" do %>
+          <%= render "organizations/switcher" %>
+        <% end %>
+      <% end %>
+      </div>
+      
+
+      <!-- Right: User Menu -->
+      <div>
+        <span class="text-sm text-gray-600">
+          Signed in as <%= current_user.email %>
+        </span>
+        <%= link_to "Logout", logout_path, method: :delete, class: "ml-4 text-sm text-gray-600 hover:text-gray-900" %>
+      </div>
+    </div>
+  </div>
+</header>

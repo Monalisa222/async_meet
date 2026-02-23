@@ -9,6 +9,8 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user
 
+  helper_method :current_organization
+
   private
 
   def current_user
@@ -19,5 +21,17 @@ class ApplicationController < ActionController::Base
     return if current_user
 
     redirect_to login_path, alert: "You must be logged in to access this section."
+  end
+
+  def current_organization
+    return unless current_user && session[:organization_id]
+    
+    @current_organization ||= current_user.organizations.find_by(id: session[:organization_id])
+  end
+
+  def require_organization
+    return if current_organization
+
+    redirect_to organizations_path, alert: "You must select an organization to access this section."
   end
 end

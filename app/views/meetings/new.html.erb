@@ -1,0 +1,77 @@
+<h1 class="text-2xl font-semibold text-gray-900 mb-6">
+  New Meeting
+</h1>
+
+<%= form_with model: @meeting, class: "space-y-6" do |f| %>
+
+  <div>
+    <%= f.label :title, class: "block text-sm font-medium text-gray-700" %>
+    <%= f.text_field :title, required: true,
+          class: "mt-1 block w-full px-3 py-2 rounded-lg
+                 border border-gray-300
+                 bg-white text-gray-700 text-sm font-medium
+                 shadow-sm
+                 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500
+                 transition duration-200" %>
+  </div>
+
+  <div>
+    <%= f.label :description, class: "block text-sm font-medium text-gray-700" %>
+    <%= f.text_area :description, rows: 4,
+          class: "mt-1 block w-full px-3 py-2 rounded-lg
+                 border border-gray-300
+                 bg-white text-gray-700 text-sm font-medium
+                 shadow-sm
+                 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500
+                 transition duration-200" %>
+  </div>
+
+  <div>
+    <%= f.label :scheduled_at, "Scheduled Date & Time", class: "block text-sm font-medium text-gray-700" %>
+    <%= f.datetime_select :scheduled_at,
+          class: "mt-1 block w-full px-3 py-2 rounded-lg
+                 border border-gray-300
+                 bg-white text-gray-700 text-sm font-medium
+                 shadow-sm
+                 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500
+                 transition duration-200" %>
+  </div>
+
+  <div>
+    <%= f.label :status, class: "block text-sm font-medium text-gray-700" %>
+    <%= f.select :status, Meeting.statuses.keys.map { |s| [s.humanize, s] },
+          class: "mt-1 block w-full px-3 py-2 rounded-lg
+                 border border-gray-300
+                 bg-white text-gray-700 text-sm font-medium
+                 shadow-sm
+                 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500
+                 transition duration-200" %>
+  </div>
+
+  <div>
+    <%= f.label :duration_minutes, "Duration (minutes)", class: "block text-sm font-medium text-gray-700" %>
+    <%= f.number_field :duration_minutes, min: 1,
+          class: "mt-1 block w-full px-3 py-2 rounded-lg
+                 border border-gray-300
+                 bg-white text-gray-700 text-sm font-medium
+                 shadow-sm
+                 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500
+                 transition duration-200" %>
+  </div>
+
+  <div>
+    <%= f.label :meeting_url, "Meeting URL", class: "block text-sm font-medium text-gray-700" %>
+    <%= f.url_field :meeting_url,
+          class: "mt-1 block w-full px-3 py-2 rounded-lg
+                 border border-gray-300
+                  bg-white text-gray-700 text-sm font-medium
+                  shadow-sm
+                  focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500
+                  transition duration-200" %>
+  </div>
+
+  <div>
+    <%= f.submit "Create Meeting",
+          class: "bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition" %>
+  </div>
+<% end %>

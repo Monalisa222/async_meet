@@ -1,12 +1,22 @@
-<div>
+<div class="flex justify-end">
+
   <%= form_with url: switch_organization_path,
                 method: :post,
                 data: { turbo_frame: "organization_switcher" } do %>
 
     <select name="organization_id"
             onchange="this.form.requestSubmit()"
-            class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm
-                   focus:ring-2 focus:ring-blue-500 focus:outline-none">
+            class="min-w-[220px] px-3 py-2 rounded-lg
+                   border border-gray-300
+                   bg-white text-gray-700 text-sm font-medium
+                   shadow-sm
+                   focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500
+                   transition duration-200">
+
+      <!-- Placeholder option -->
+      <option disabled <%= "selected" unless current_organization %>>
+        Please switch organization
+      </option>
 
       <% current_user.organizations.each do |org| %>
         <option value="<%= org.id %>"
@@ -18,4 +28,5 @@
     </select>
 
   <% end %>
+
 </div>

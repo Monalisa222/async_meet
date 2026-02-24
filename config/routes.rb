@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get "meetings/index"
+  get "meetings/new"
+  get "meetings/create"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -21,4 +24,6 @@ Rails.application.routes.draw do
 
   resources :organizations, only: [:index, :new, :create]
   post "switch_organization", to: "organizations#switch", as: :switch_organization
+
+  resources :meetings, only: [:index, :new, :create]
 end

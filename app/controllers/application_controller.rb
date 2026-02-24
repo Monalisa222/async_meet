@@ -9,9 +9,7 @@ class ApplicationController < ActionController::Base
 
   before_action :require_organization
 
-  helper_method :current_user
-
-  helper_method :current_organization
+  helper_method :current_user, :current_organization, :current_membership
 
   private
 
@@ -41,5 +39,12 @@ class ApplicationController < ActionController::Base
     return unless current_user && current_organization
 
     @current_membership ||= current_organization.memberships.find_by(user_id: current_user.id)
+  end
+
+  # Require Owner role for certain actions
+  def require_owner
+    unless current_membership&.owner?
+      redirect_to organizations_path, alert: "You must be an owner to access this section."
+    end
   end
 end

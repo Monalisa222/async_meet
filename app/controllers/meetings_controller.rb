@@ -1,0 +1,28 @@
+class MeetingsController < ApplicationController
+  before_action :require_owner, only: [:new, :create]
+
+  def index
+    @meetings = current_organization.meetings.order(created_at: :desc)
+  end
+
+  def new
+    @meeting = current_organization.meetings.new
+  end
+
+  def create
+    @meeting = current_organization.meetings.new(meeting_params)
+    @meeting.creator = current_user
+    if @meeting.save
+      redirect_to meetings_path, notice: "Meeting created successfully."
+    else
+      flash.now[:alert] = @meeting.errors.full_messages.to_sentence
+      render :new, status: :unprocessable_entity
+    end
+  end
+
+  private
+
+  def meeting_params
+    params.require(:meeting).permit(:title, :description, :scheduled_at, :duration_minutes, :meeting_url)
+  end
+end

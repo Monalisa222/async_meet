@@ -1,0 +1,52 @@
+<div class="flex justify-between items-center mb-6">
+  <h1 class="text-2xl font-semibold text-gray-900">
+    Meetings
+  </h1>
+
+  <% if current_membership&.owner? %>
+    <%= link_to "New Meeting",
+          new_meeting_path, data: { turbo: false }, 
+          class: "bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition" %>
+  <% end %>
+</div>
+
+<% if @meetings.any? %>
+  <div class="grid gap-4 md:grid-cols-2">
+    <% @meetings.each do |meeting| %>
+
+      <div class="bg-white p-6 rounded-xl shadow-sm">
+
+        <h2 class="text-lg font-medium text-gray-900">
+          <%= meeting.title %>
+        </h2>
+
+        <% if meeting.description.present? %>
+          <p class="text-sm text-gray-600 mt-1">
+            <%= meeting.description %>
+          </p>
+        <% end %>
+
+        <p class="text-sm text-gray-500 mt-2">
+          Scheduled for: <%= meeting.scheduled_at.strftime("%B %d, %Y at %I:%M %p") %>
+        </p>
+
+        <div class="mt-4">
+          <span class="text-sm text-gray-500">
+            Status: <%= meeting.status.humanize %>
+          </span>
+        </div>
+
+      </div>
+
+    <% end %>
+  </div>
+<% else %>
+  <div class="bg-white p-6 rounded-xl shadow-sm text-center">
+    <h2 class="text-lg font-medium text-gray-900">
+      No meetings found
+    </h2>
+    <p class="text-sm text-gray-600 mt-1">
+      Start by creating a new meeting.
+    </p>
+  </div>
+<% end %>

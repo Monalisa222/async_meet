@@ -23,6 +23,21 @@
     <%= javascript_importmap_tags %>
   </head>
 
+  <script>
+    function openMemberModal(orgId) {
+      const modal = document.getElementById("memberModal");
+      const form = document.getElementById("memberForm");
+
+      form.action = "/organizations/" + orgId + "/add_member";
+      modal.classList.remove("hidden");
+    }
+
+    function closeMemberModal() {
+      document.getElementById("memberModal")
+              .classList.add("hidden");
+    }
+  </script>
+
   <body class="min-h-screen bg-gray-50 text-gray-900 antialiased">
     <!-- Global Flash Messages -->
     <%= render "shared/flash" %>

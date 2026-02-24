@@ -26,13 +26,24 @@
 
       <div class="mt-4">
         <%= button_to "Switch",
-              switch_organization_path,
+              switch_organizations_path,
               method: :post,
               params: { organization_id: org.id },
               class: "text-blue-600 font-medium hover:text-blue-800" %>
       </div>
 
+      <% if current_membership&.owner? && current_organization&.id == org.id %>
+        <div class="mt-4">
+          <button onclick="openMemberModal(<%= org.id %>)"
+                  class="text-green-600 font-medium hover:text-green-800">
+            Add Member
+          </button>
+        </div>
+      <% end %>
+
     </div>
 
   <% end %>
 </div>
+
+<%= render "organizations/member_modal" %>

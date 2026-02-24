@@ -1,5 +1,6 @@
 class OrganizationsController < ApplicationController
   skip_before_action :require_organization, only: [:index, :new, :create, :switch]
+  before_action :require_owner, only: [:add_member]
 
   def index
     @organizations = current_user.organizations
@@ -37,6 +38,25 @@ class OrganizationsController < ApplicationController
       redirect_to organizations_path, alert: "You do not have access to this organization."
     end
   end
+
+  def add_member
+    @organization = current_user.organizations.find(params[:id])
+    user = User.find_by(email: params[:email])
+
+    if user.nil?
+      redirect_to organizations_path, alert: "User with email #{params[:email]} not found."
+      return
+    end
+
+    if @organization.memberships.exists?(user_id: user.id)
+      redirect_to organizations_path, alert: "User #{user.email} is already a member of this organization."
+      return
+    end
+
+    Membership.create(user: user, organization: @organization, role: :member, active: true)
+    redirect_to organizations_path, notice: "User #{user.email} added to organization #{@organization.name}."
+  end
+
 
   private
 

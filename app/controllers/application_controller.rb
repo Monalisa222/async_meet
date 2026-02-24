@@ -7,6 +7,8 @@ class ApplicationController < ActionController::Base
 
   before_action :require_login
 
+  before_action :require_organization
+
   helper_method :current_user
 
   helper_method :current_organization
@@ -33,5 +35,11 @@ class ApplicationController < ActionController::Base
     return if current_organization
 
     redirect_to organizations_path, alert: "You must select an organization to access this section."
+  end
+
+  def current_membership
+    return unless current_user && current_organization
+
+    @current_membership ||= current_organization.memberships.find_by(user_id: current_user.id)
   end
 end

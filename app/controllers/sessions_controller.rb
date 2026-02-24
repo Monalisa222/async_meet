@@ -1,6 +1,7 @@
 class SessionsController < ApplicationController
   layout "auth"
   skip_before_action :require_login, only: [:new, :create]
+  skip_before_action :require_organization, only: [:new, :create, :destroy]
 
   def new
   end

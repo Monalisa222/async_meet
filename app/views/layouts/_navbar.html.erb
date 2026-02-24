@@ -12,9 +12,13 @@
         <%= turbo_frame_tag "organization_switcher", class: "ml-4 px-2 py-1 bg-gray-100 text-sm rounded-lg" do %>
           <%= render "organizations/switcher" %>
         <% end %>
+      <% else %>
+        <span class="text-sm text-red-500">
+          No organizations found. Please create or join one.
+        </span>
       <% end %>
       </div>
-      
+
 
       <!-- Right: User Menu -->
       <div>

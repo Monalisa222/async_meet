@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
 
   def current_organization
     return unless current_user && session[:organization_id]
-    
+
     @current_organization ||= current_user.organizations.find_by(id: session[:organization_id])
   end
 

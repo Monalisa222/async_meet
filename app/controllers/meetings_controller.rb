@@ -1,5 +1,5 @@
 class MeetingsController < ApplicationController
-  before_action :require_owner, only: [:new, :create, :edit, :update]
+  before_action :require_owner, only: [ :new, :create, :edit, :update ]
   before_action :require_organization
 
   def index

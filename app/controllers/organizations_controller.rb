@@ -1,6 +1,6 @@
 class OrganizationsController < ApplicationController
-  skip_before_action :require_organization, only: [:index, :new, :create, :switch]
-  before_action :require_owner, only: [:add_member]
+  skip_before_action :require_organization, only: [ :index, :new, :create, :switch ]
+  before_action :require_owner, only: [ :add_member ]
 
   def index
     @organizations = current_user.organizations

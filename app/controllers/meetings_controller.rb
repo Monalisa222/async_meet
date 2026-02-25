@@ -1,5 +1,5 @@
 class MeetingsController < ApplicationController
-  before_action :require_owner, only: [:new, :create]
+  before_action :require_owner, only: [:new, :create, :edit, :update]
   before_action :require_organization
 
   def index
@@ -25,9 +25,23 @@ class MeetingsController < ApplicationController
     end
   end
 
+  def edit
+    @meeting = current_organization.meetings.find(params[:id])
+  end
+
+  def update
+    @meeting = current_organization.meetings.find(params[:id])
+    if @meeting.update(meeting_params)
+      redirect_to meeting_path(@meeting), notice: "Meeting updated successfully."
+    else
+      flash.now[:alert] = @meeting.errors.full_messages.to_sentence
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def meeting_params
-    params.require(:meeting).permit(:title, :description, :scheduled_at, :duration_minutes, :meeting_url)
+    params.require(:meeting).permit(:title, :description, :status, :scheduled_at, :duration_minutes, :meeting_url)
   end
 end

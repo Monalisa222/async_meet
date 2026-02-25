@@ -32,5 +32,5 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :meetings, only: [:index, :new, :create]
+  resources :meetings, only: [:index, :new, :create, :show]
 end

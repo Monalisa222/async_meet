@@ -1,8 +1,13 @@
 class MeetingsController < ApplicationController
   before_action :require_owner, only: [:new, :create]
+  before_action :require_organization
 
   def index
     @meetings = current_organization.meetings.order(created_at: :desc)
+  end
+
+  def show
+    @meeting = current_organization.meetings.includes(:creator).find(params[:id])
   end
 
   def new

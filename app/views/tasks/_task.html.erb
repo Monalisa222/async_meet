@@ -1,0 +1,70 @@
+<div class="bg-gray-50 p-6 rounded-lg shadow-sm flex flex-col">
+
+  <!-- Top Section (Same as yours) -->
+  <div class="flex items-start justify-between">
+
+    <!-- Left Section -->
+    <div class="flex-1">
+      <h3 class="text-xl font-semibold text-gray-900">
+        <%= task.title %>
+      </h3>
+
+      <% if task.description.present? %>
+        <p class="text-gray-700 mt-2">
+          <%= task.description %>
+        </p>
+      <% end %>
+
+      <!-- Assigned User -->
+      <p class="text-sm text-gray-500 mt-3">
+        Assigned to:
+        <span class="font-medium text-gray-700">
+          <%= task.assigned_user&.email || "Unassigned" %>
+        </span>
+      </p>
+    </div>
+
+    <!-- Right Section (Only Badges now) -->
+    <div class="flex items-center space-x-3 ml-6">
+
+      <!-- Status Badge -->
+      <span class="px-3 py-1 text-sm font-medium rounded-full
+        <%= case task.status
+            when 'pending' then 'bg-yellow-100 text-yellow-800'
+            when 'in_progress' then 'bg-blue-100 text-blue-800'
+            when 'done' then 'bg-green-100 text-green-800'
+        end %>">
+        <%= task.status.humanize %>
+      </span>
+
+      <!-- Priority Badge -->
+      <span class="px-3 py-1 text-sm font-medium rounded-full
+        <%= case task.priority
+            when 'low' then 'bg-green-100 text-green-800'
+            when 'medium' then 'bg-yellow-100 text-yellow-800'
+            when 'high' then 'bg-red-100 text-red-800'
+        end %>">
+        <%= task.priority.humanize %>
+      </span>
+
+    </div>
+  </div>
+
+  <!-- Bottom Left Actions -->
+  <div class="flex justify-start mt-4 space-x-4">
+
+    <%= link_to "Edit",
+        edit_meeting_task_path(@meeting, task),
+        class: "text-indigo-600 hover:text-indigo-800 font-medium" %>
+
+    <%= link_to "Delete",
+        meeting_task_path(@meeting, task),
+        data: {
+          turbo_method: :delete,
+          turbo_confirm: "Are you sure you want to delete this task?"
+        },
+        class: "text-red-600 hover:text-red-800 font-medium" %>
+
+  </div>
+
+</div>

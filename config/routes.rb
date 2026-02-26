@@ -33,6 +33,6 @@ Rails.application.routes.draw do
   end
 
   resources :meetings, only: [ :index, :new, :create, :show, :edit, :update ] do
-    resources :tasks, only: [ :new, :create, :edit, :update ]
+    resources :tasks, only: [ :new, :create, :edit, :update, :destroy ]
   end
 end

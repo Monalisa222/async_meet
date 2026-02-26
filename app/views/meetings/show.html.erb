@@ -68,8 +68,16 @@
   <h2 class="text-xl font-semibold text-gray-900">Tasks</h2>
 </div>
 
-<%= render "tasks/form", meeting: @meeting %>
+<!-- Task Form Placeholder -->
+<div class="mb-6">
+  <%= render "tasks/form", meeting: @meeting, task: Task.new %>
+</div>
 
 <!-- Tasks List Placeholder -->
-<%= render "tasks/list", tasks: @meeting.tasks %>
-
+<% if @meeting.tasks.any? %>
+  <div class="space-y-4">
+    <%= render @meeting.tasks %>
+  </div>
+<% else %>
+  <p class="text-gray-700">No tasks yet. Add one above!</p>
+<% end %>

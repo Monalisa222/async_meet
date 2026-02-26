@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_26_081243) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_26_081503) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -43,6 +43,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_26_081243) do
   end
 
   create_table "meetings", force: :cascade do |t|
+    t.boolean "ai_processed", default: false
+    t.text "ai_summary"
     t.datetime "created_at", null: false
     t.bigint "creator_id", null: false
     t.text "description"
@@ -52,6 +54,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_26_081243) do
     t.datetime "scheduled_at"
     t.integer "status", default: 0, null: false
     t.string "title"
+    t.text "transcript"
     t.datetime "updated_at", null: false
     t.index ["creator_id"], name: "index_meetings_on_creator_id"
     t.index ["organization_id"], name: "index_meetings_on_organization_id"
@@ -82,6 +85,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_26_081243) do
   end
 
   create_table "tasks", force: :cascade do |t|
+    t.boolean "ai_generated", default: false
     t.bigint "assigned_user_id"
     t.datetime "created_at", null: false
     t.text "description"

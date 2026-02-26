@@ -42,6 +42,6 @@ class MeetingsController < ApplicationController
   private
 
   def meeting_params
-    params.require(:meeting).permit(:title, :description, :status, :scheduled_at, :duration_minutes, :meeting_url)
+    params.require(:meeting).permit(:title, :description, :status, :scheduled_at, :duration_minutes, :meeting_url, :audio_file)
   end
 end

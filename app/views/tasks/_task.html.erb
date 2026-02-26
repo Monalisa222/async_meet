@@ -47,6 +47,14 @@
         <%= task.priority.humanize %>
       </span>
 
+      <!-- AI Generated Badge -->
+      <% if task.ai_generated? %>
+        <span class="px-3 py-1 text-sm font-medium rounded-full bg-purple-100 text-purple-800">
+          AI Generated
+        </span>
+      <% end %>
+
+
     </div>
   </div>
 

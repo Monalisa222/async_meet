@@ -75,6 +75,12 @@
       <div class="mt-6 bg-gray-50 p-4 rounded-lg shadow-sm">
         <h3 class="text-lg font-medium text-gray-900 mb-2">AI Transcript</h3>
         <p class="text-gray-700 whitespace-pre-wrap"><%= @meeting.transcript %></p>
+        <% if @meeting.ai_summary.present? %>
+          <div class="mt-4 bg-white p-4 rounded-lg shadow-sm">
+            <h3 class="text-lg font-medium text-gray-900 mb-2">AI Summary</h3>
+            <p class="text-gray-700 whitespace-pre-wrap"><%= @meeting.ai_summary %></p>
+          </div>
+        <% end %>
       </div>
     <% end %>
 

@@ -1,0 +1,67 @@
+<%= form_with model: [meeting, Task.new], local: true, class: "space-y-6" do |form| %>
+
+  <!-- Title -->
+  <div>
+    <%= form.label :title, class: "block text-sm font-medium text-gray-700" %>
+    <%= form.text_field :title, placeholder: "Task Title", required: true,
+          class: "mt-1 w-full px-3 py-2 rounded-lg border border-gray-300 bg-white text-gray-700 text-sm shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition" %>
+  </div>
+
+  <!-- Grid Section -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+    <!-- Assigned User -->
+    <div>
+      <%= form.label :assigned_user_id, "Assign to", class: "block text-sm font-medium text-gray-700" %>
+      <%= form.select :assigned_user_id, options_from_collection_for_select(current_organization.users, :id, :email),
+            include_blank: "Unassigned",
+            class: "mt-1 block w-full px-3 py-2 rounded-lg
+                   border border-gray-300
+                   bg-white text-gray-700 text-sm font-medium
+                   shadow-sm
+                   focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500
+                   transition duration-200" %>
+    </div>
+
+    <!-- Status -->
+    <div>
+      <%= form.label :status, class: "block text-sm font-medium text-gray-700" %>
+      <%= form.select :status,
+            Task.statuses.keys.map { |s| [s.humanize, s] },
+            {},
+            class: "mt-1 w-full px-3 py-2 rounded-lg border border-gray-300 bg-white text-gray-700 text-sm shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition" %>
+    </div>
+
+    <!-- Priority -->
+    <div>
+      <%= form.label :priority, class: "block text-sm font-medium text-gray-700" %>
+      <%= form.select :priority,
+            Task.priorities.keys.map { |p| [p.humanize, p] },
+            {},
+            class: "mt-1 w-full px-3 py-2 rounded-lg border border-gray-300 bg-white text-gray-700 text-sm shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition" %>
+    </div>
+
+  </div>
+
+  <!-- Description -->
+  <div>
+    <%= form.label :description, class: "block text-sm font-medium text-gray-700" %>
+    <%= form.text_area :description, placeholder: "Task Description",
+          rows: 3,
+          class: "mt-1 w-full px-3 py-2 rounded-lg border border-gray-300 bg-white text-gray-700 text-sm shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition" %>
+  </div>
+
+  <!-- Due Date -->
+  <div>
+    <%= form.label :due_date, class: "block text-sm font-medium text-gray-700" %>
+    <%= form.date_field :due_date,
+          class: "mt-1 w-full px-3 py-2 rounded-lg border border-gray-300 bg-white text-gray-700 text-sm shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition" %>
+  </div>
+
+  <!-- Submit -->
+  <div class="flex justify-end">
+    <%= form.submit "Add Task",
+          class: "px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg shadow-sm hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 transition" %>
+  </div>
+
+<% end %>

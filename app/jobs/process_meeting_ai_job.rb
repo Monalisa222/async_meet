@@ -16,6 +16,13 @@ class ProcessMeetingAiJob < ApplicationJob
 
     transcript = SpeechToTextService.new(meeting).call
 
-    meeting.update(transcript: transcript, ai_processed: true)
+    meeting.update_column(:transcript, transcript)
+
+    OllamaTaskExtractionService.new(meeting).call
+
+    meeting.update_column(:ai_processed, true)
+
+  rescue => e
+    Rails.logger.error("AI Processing Failed for  Meeting #{metting.id}: #{e.message}")
   end
 end

@@ -19,19 +19,19 @@ class SpeechToTextService
     extension = @meeting.audio_file.blob.filename.extension
     file_path = Rails.root.join("tmp", "meeting_#{@meeting.id}.#{extension}")
 
-    File.open(file_path, "wb") do |file|
-      file.write(@meeting.audio_file.download)
-    end
+    File.binwrite(file_path, @meeting.audio_file.download)
 
     file_path.to_s
   end
 
   def transcribe(file_path)
-    base_name = File.basename(file_path, ".*")
-    output_path = Rails.root.join("tmp", "#{base_name}.txt").to_s
+    base_name  = File.basename(file_path, ".*")
+    output_dir = Rails.root.join("tmp").to_s
+    output_path = File.join(output_dir, "#{base_name}.txt")
+
     whisper = ENV["WHISPER_PATH"]
 
-    success = system("#{whisper} #{file_path} --model base --output_format txt --output_dir tmp")
+    success = system("#{whisper} #{file_path} --model base --output_format txt --output_dir #{output_dir}")
 
     return unless success && File.exist?(output_path)
 
@@ -39,9 +39,12 @@ class SpeechToTextService
   end
 
   def cleanup_files(file_path)
-    txt_path = file_path.sub(/\.\w+$/, ".txt")
+    base_name = File.basename(file_path, ".*")
+    dir       = Rails.root.join("tmp")
 
-    File.delete(file_path) if File.exist?(file_path)
-    File.delete(txt_path) if File.exist?(txt_path)
+    # Delete ALL files generated for this meeting (audio + txt + vtt + srt + json etc.)
+    Dir.glob(dir.join("#{base_name}.*")).each do |file|
+      File.delete(file) if File.exist?(file)
+    end
   end
 end

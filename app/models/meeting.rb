@@ -8,30 +8,33 @@ class Meeting < ApplicationRecord
 
   enum :status, { scheduled: 0, completed: 1, cancelled: 2 }
 
-  # Detect new audio BEFORE saving
-  before_save :reset_ai_if_audio_replaced
+  # Only check for audio file changes if it's attached, to avoid unnecessary resets
+  before_save :mark_audio_changed, if: :audio_file_attached_and_changed?
 
-  after_commit :enqueue_ai_processing, if: :should_process_ai?
+  after_commit :enqueue_ai_processing, if: :audio_changed?
 
   private
 
-  def should_process_ai?
-    audio_file.attached? && !ai_processed?
+  def audio_file_attached_and_changed?
+    audio_file.attached? && audio_file.attachment&.changed?
+  end
+
+  # We use an instance variable to track if the audio file was changed during this transaction
+  def audio_changed?
+    @audio_changed
+  end
+
+  def mark_audio_changed
+    @audio_changed = true
   end
 
   def enqueue_ai_processing
+    update_columns(
+      ai_processed: false,
+      transcript: nil,
+      ai_summary: nil
+    )
+
     ProcessMeetingAiJob.perform_later(id)
-  end
-
-  # IF a new audio file is attached during update,
-  # reset AI-related fields so it rerun job
-
-  def reset_ai_if_audio_replaced
-    return unless audio_file.attached?
-    return unless audio_file.attachment&.changed?
-
-    self.ai_processed = false
-    self.transcript = nil
-    self.ai_summary = nil
   end
 end

@@ -1,3 +1,5 @@
+require "securerandom"
+
 class SpeechToTextService
   def initialize(meeting)
     @meeting = meeting
@@ -7,17 +9,22 @@ class SpeechToTextService
     return unless @meeting.audio_file.attached?
 
     audio_path = download_audio
-    transcript = transcribe(audio_path)
-    cleanup_files(audio_path)
-
-    transcript
+    begin
+      transcript = transcribe(audio_path)
+      transcript
+    ensure
+      cleanup_files(audio_path) if audio_path.present?
+    end
   end
 
   private
 
   def download_audio
     extension = @meeting.audio_file.blob.filename.extension
-    file_path = Rails.root.join("tmp", "meeting_#{@meeting.id}.#{extension}")
+    file_path = Rails.root.join(
+      "tmp",
+      "meeting_#{@meeting.id}_#{SecureRandom.hex(6)}.#{extension}"
+    )
 
     File.binwrite(file_path, @meeting.audio_file.download)
 

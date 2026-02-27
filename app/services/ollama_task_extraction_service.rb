@@ -44,10 +44,18 @@ class OllamaTaskExtractionService
     <<~PROMPT
     You are a strict JSON generator.
 
-    Return ONLY valid JSON.
-    No markdown.
-    No explanation.
-    No backticks.
+    Output must be valid JSON.
+    Do NOT include markdown.
+    Do NOT include explanations.
+    Do NOT include backticks.
+    Do NOT include comments.
+    Do NOT include extra text before or after JSON.
+
+    The output must:
+    - Be minified (single line JSON).
+    - Use double quotes only.
+    - Contain no control characters.
+    - Contain no trailing commas.
 
     Format:
     {

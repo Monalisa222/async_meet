@@ -1,5 +1,6 @@
 class ProcessMeetingAiJob < ApplicationJob
   queue_as :default
+  retry_on StandardError, attempts: 0
 
   def perform(meeting_id)
     meeting = Meeting.find(meeting_id)
@@ -13,12 +14,8 @@ class ProcessMeetingAiJob < ApplicationJob
     # Simulate AI processing (replace with actual AI logic)
     sleep(5) # Simulating time-consuming processing
 
-    # Update meeting with AI-generated data (for demonstration)
-    meeting.update(
-      transcript: "This is a simulated transcript of the meeting.",
-      ai_summary: "This is a simulated summary of the meeting.",
-      ai_processed: true
-    )
-    # Do something later
+    transcript = SpeechToTextService.new(meeting).call
+
+    meeting.update(transcript: transcript, ai_processed: true)
   end
 end

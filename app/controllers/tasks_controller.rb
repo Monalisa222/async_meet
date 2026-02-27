@@ -15,7 +15,7 @@ class TasksController < ApplicationController
   end
 
   def edit; end
-  
+
   def update
     if @task.update(task_params)
       redirect_to meeting_path(@meeting), notice: "Task was successfully updated."
@@ -29,7 +29,7 @@ class TasksController < ApplicationController
     @task.destroy
     redirect_to meeting_path(@meeting), notice: "Task was successfully deleted."
   end
-  
+
   private
 
   def set_meeting

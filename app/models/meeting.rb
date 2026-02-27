@@ -8,19 +8,26 @@ class Meeting < ApplicationRecord
 
   enum :status, { scheduled: 0, completed: 1, cancelled: 2 }
 
-  after_commit :enqueue_ai_processing, on: [ :create, :update ]
+  after_commit :enqueue_ai_processing, if: :should_process_ai?
 
   private
 
-  def audio_file_attached_and_not_processed?
-    audio_file.attached? && !ai_processed?
+  def should_process_ai?
+    return false unless audio_file.attached?
+
+    previously_new_record? || attachment_changed?
+  end
+
+  def attachment_changed?
+    saved_changes.key?("audio_file_attachment")
   end
 
   def enqueue_ai_processing
-    return unless audio_file.attached?
-
-    return if ai_processed?
-
+    # Reset transcript + mark unprocessed
+    update_columns(
+      ai_processed: false,
+      transcript: nil
+    )
     ProcessMeetingAiJob.perform_later(id)
   end
 end

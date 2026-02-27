@@ -61,22 +61,29 @@
   </div>
 
   <div>
-    <%= f.label :audio_file, "Upload Audio File", class: "block text-sm font-medium text-gray-700" %>
-    <%= f.file_field :audio_file, accept: "audio/*",
-          class: "mt-1 block w-full text-sm text-gray-700
-                 file:mr-4 file:py-2 file:px-4
-                 file:rounded-lg file:border-0
-                 file:text-sm file:font-medium
-                 file:bg-blue-600 file:text-white
-                 hover:file:bg-blue-700
-                 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500
-                 transition duration-200" %>
+    <%= f.label :audio_file, "Upload Audio File",
+          class: "block text-sm font-medium text-gray-700" %>
 
+    <% if f.object.audio_file.attached? %>
+      <p class="text-sm text-gray-600 mb-2">
+        Current file: <%= f.object.audio_file.filename %>
+      </p>
+    <% end %>
+
+    <%= f.file_field :audio_file,
+          accept: "audio/*",
+          class: "mt-1 block w-full text-sm text-gray-700
+                file:mr-4 file:py-2 file:px-4
+                file:rounded-lg file:border-0
+                file:text-sm file:font-medium
+                file:bg-blue-600 file:text-white
+                hover:file:bg-blue-700
+                focus:outline-none focus:ring-2 focus:ring-indigo-500
+                transition duration-200" %>
   </div>
 
   <div>
-    <%= f.submit @meeting.persisted? ? "Update Meeting" : "Create Meeting",
-          class: "bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition" %>
+    <%= f.submit class: "bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition" %>
   </div>
 
 <% end %>

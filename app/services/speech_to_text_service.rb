@@ -37,9 +37,15 @@ class SpeechToTextService
     output_path = File.join(output_dir, "#{base_name}.txt")
 
     whisper = ENV["WHISPER_PATH"]
+    raise "Whisper path not configured" unless whisper.present?
 
-    success = system("#{whisper} #{file_path} --model base --output_format txt --output_dir #{output_dir}")
-
+    success = system(
+      whisper,
+      file_path,
+      "--model", "base",
+      "--output_format", "txt",
+      "--output_dir", output_dir
+    )
     return unless success && File.exist?(output_path)
 
     File.read(output_path)

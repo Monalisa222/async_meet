@@ -11,10 +11,21 @@
         end
       %>
 
-      <div class="mb-4 px-4 py-3 border rounded-xl shadow-sm <%= bg_color %>">
+      <div class="mb-4 px-4 py-3 border rounded-xl shadow-sm <%= bg_color %> flex justify-between items-start"
+           data-flash>
+        
         <div class="text-sm font-medium">
           <%= message %>
         </div>
+
+        <!-- Close Button -->
+        <button
+          type="button"
+          class="ml-4 text-lg font-bold leading-none focus:outline-none"
+          onclick="this.closest('[data-flash]').remove()">
+          &times;
+        </button>
+
       </div>
 
     <% end %>

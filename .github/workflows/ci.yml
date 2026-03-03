@@ -101,5 +101,8 @@ jobs:
           bin/rails db:create
           bin/rails db:schema:load
 
+      - name: Build Tailwind
+        run: bin/rails tailwindcss:build
+
       - name: Run RSpec
         run: bundle exec rspec

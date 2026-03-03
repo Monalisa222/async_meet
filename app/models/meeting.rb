@@ -8,6 +8,9 @@ class Meeting < ApplicationRecord
 
   enum :status, { scheduled: 0, completed: 1, cancelled: 2 }
 
+  validates :title, presence: true
+  validates :scheduled_at, presence: true
+
   # Only check for audio file changes if it's attached, to avoid unnecessary resets
   before_save :mark_audio_changed, if: :audio_file_attached_and_changed?
 

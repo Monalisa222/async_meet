@@ -51,6 +51,8 @@ RSpec.configure do |config|
     ActiveJob::Base.queue_adapter = :test
   end
 
+  config.include FactoryBot::Syntax::Methods
+
   # You can uncomment this line to turn off ActiveRecord support entirely.
   # config.use_active_record = false
 

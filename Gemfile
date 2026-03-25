@@ -35,7 +35,7 @@ gem "thruster", require: false
 gem "sidekiq"
 gem "redis"
 
-gem "bcrypt", "~> 3.1.7"
+gem "bcrypt", "~> 3.1.22"
 
 gem "tailwindcss-rails"
 
